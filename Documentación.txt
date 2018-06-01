@@ -1,0 +1,260 @@
+1- getEmployee - GET
+Method: GET
+Url: /employee/information/{n_empleado}
+Params: n_empleado
+Response:
+{
+  "status": 200,
+  "message": "success",
+  "payload": {
+    "employee": {
+      "employee_number": "20378",
+      "name": "PATRON VALDES GERMAN",
+      "rfc": "PAVG830405710",
+      "street": "ISLA DE GALAPAGOS",
+      "number_street": "38",
+      "city": "MAZATLÁN",
+      "state": "SINALOA",
+      "postal_code": "82160",
+      "mail": "abarajas@tracsa.com.mx",
+      "branch_key": "140",
+      "branch": "DUR",
+      "division": "IN",
+      "area": "S",
+      "department": "CA",
+      "position": "MECANICO DE TALLER C",
+      "cc_account": "610",
+      "cc_key": "",
+      "bank": "BANAMEX",
+      "clabe": "",
+      "account": "5256782132553994",
+      "position_id": "626",
+      "boss_id": "291",
+      "position_key": "GRAL",
+      "company": "SP"
+    },
+    "lock": null
+  }
+}
+
+
+2- getAuthorizer.
+Method: POST
+Url: /request/authorizer
+Params: array[employee_number, company, position_key, branch, division, boss_id, position_id, amount, currency]
+Response:
+{
+  "status": 200,
+  "message": "success",
+  "payload": {
+      "id_empleado": "647",
+      "n_empleado": "20253",
+      "nombre_completo": "PEÑA SOTO MANUEL ALEJANDRO",
+      "rfc": "PESM880328GN7",
+      "f_ingreso": "2015-05-05 00:00:00.",
+      "calle": "PRIVADA DE AGORA",
+      "n_calle": "100",
+      "poblacion": "DURANGO",
+      "estado": "DURANGO",
+      "cp": "34234",
+      "afiliacion": "31118807085",
+      "mail": "abarajas@tracsa.com.mx",
+      "clave_sucursal": "140",
+      "cuenta_suc": "DUR",
+      "clave_departam": "MM",
+      "clave_puesto": "230",
+      "puesto": "SUPERVISOR DE SERVICIO",
+      "factor": "Confianza",
+      "division": "MT",
+      "area": "S",
+      "cuenta_cc": "610",
+      "clave_cc": "",
+      "id_tiponomina": "2",
+      "nomina": "QUINCENAL",
+      "banco": "BANAMEX",
+      "clabe": "",
+      "cuenta": "5256781647812499",
+      "id_plaza": "291",
+      "id_jefe": "460",
+      "clave_categorias": "SUP",
+      "clave_empresa": "SP"
+  }
+}
+
+
+3- Save request.
+Method: POST
+Url: /request/money
+Params:
+{
+  "employee": { //Quien realiza la solicitud
+    "employee_number": "04407",
+    "name": "MOLINA GARCIA CESAR AUGUSTO",
+    "rfc": "MOGC770930VB0",
+    "street": "PRIVADA DEL ARROYO",
+    "number_street": "125",
+    "city": "ZAPOPAM",
+    "state": "JALISCO",
+    "postal_code": "45206",
+    "mail": "abarajas@tracsa.com.mx",
+    "branch_key": "01",
+    "branch": "GDL",
+    "division": "MT",
+    "area": "R",
+    "department": "ABA",
+    "position": "DIRECTOR DE REFACCIONES",
+    "cc_account": "610",
+    "cc_key": "",
+    "bank": "SANTANDER",
+    "clabe": "014320565990496896",
+    "account": "56599049689",
+    "position_id": "2093",
+    "boss_id": "1575",
+    "position_key": "DIR",
+    "company": "TP"
+  }, 
+  "request":{ //Los datos del formulario
+    "alternate1":"", 
+    "alternate2":"", 
+    "type":"E", //Efectivo/Transferencia
+    "amount":"2580.66", 
+    "currency":"DLL|MXN", 
+    "reason":"PRUEBA CON UN DIRECTOR", 
+    "lock":"0|1", //según regrese el objeto "lock" del endpoint 1- getEmployee
+    "authorizer": 
+    {
+      'employee_number' => "01860",
+      'name' => "FONSECA ARAMBULA SERGIO ANTONIO",
+      'mail' => "abarajas@tracsa.com.mx",
+      'position' => "DIRECTOR GENERAL",
+      'company' => "TP",
+    },
+    {
+      'employee_number' => "01888",
+      'name' => "FONSECA ARAMBULA SERGIO ANTONIO",
+      'mail' => "abarajas@tracsa.com.mx",
+      'position' => "GERENTE DE AUDITORIA",
+      'company' => "TP
+    }
+  }
+}
+Response:
+{
+  "status":200|404,
+  "message":"success|error",
+  "payload":"Solicitud de fondos creada y puesta en flujo con éxito.|No ha sido posible crear la solicitud de fondos."
+}
+
+
+*Para la bandeja de solicitudes usuario
+4 - getAllRequests
+Method: GET
+Url: /request/all/{employee_number}
+Params: employee_number
+Response: 
+{
+  "status": 200,
+  "message": "success",
+  "payload": [
+    {
+        "number": "51017",
+        "date": "2018-05-24 16:35:41.000000",
+        "type": "Efectivo",
+        "reason": "UNA PRUEBA",
+        "amount": "5200.000",
+        "currency": "MXN",
+        "time": "5 días 23 horas 5 minutos",
+        "request_status": "0",
+        "dispersion_status": "2",
+        "request_status_name": "Pendiente de autorizar",
+        "dispersion_status_name": "En proceso"
+    },
+    {
+        "number": "51021",
+        "date": "2018-05-25 19:12:03.000000",
+        "type": "Efectivo",
+        "reason": "LA SEGUNDA PRUEBA",
+        "amount": "2580.660",
+        "currency": "DLL",
+        "time": "4 días 20 horas 29 minutos",
+        "request_status": "0",
+        "dispersion_status": "2",
+        "request_status_name": "Pendiente de autorizar",
+        "dispersion_status_name": "En proceso"
+    },
+    {
+        "number": "51022",
+        "date": "2018-05-25 19:18:52.000000",
+        "type": "Efectivo",
+        "reason": "LA SEGUNDA PRUEBA",
+        "amount": "2580.660",
+        "currency": "DLL",
+        "time": "4 días 20 horas 22 minutos",
+        "request_status": "0",
+        "dispersion_status": "2",
+        "request_status_name": "Pendiente de autorizar",
+        "dispersion_status_name": "En proceso"
+    }
+  ]
+  | null
+}
+
+
+5 - getAuthorizationLog
+Method: GET
+Url: /request/authorization/log/{request_number}
+Params: request_number
+Response:
+Exitoso:
+{
+  "status": 200,
+  "message": "success",
+  "payload": {
+    "first_authorizer": "",
+    "first_level": "1970-01-01 00:00:00.000000",
+    "second_authorizer": "",
+    "second_level": "1970-01-01 00:00:00.000000",
+    "third_authorizer": "00060",
+    "third_level": "1970-01-01 00:00:00.000000",
+    "reason_rejection": "",
+    "date_rejection": "1970-01-01 00:00:00.000000",
+    "employee_rejects": "",
+    "request_status_name": "Pendiente de autorizar",
+    "request_status": "0"
+  }
+}
+Con error:
+{
+  "status": 404,
+  "message": "not found",
+  "error": "No se encontró log de autorizadores para el folio {request_number}."
+}
+
+
+6 - getPhasesLog
+Method: GET
+Url: /request/fases/log/{request_number}
+Params: request_number
+Response:
+Exitoso:
+{
+  "status": 200,
+  "message": "success",
+  "payload": {
+    "effective_payment_date": "1970-01-01 00:00:00.000000",
+    "transfer_payment_date": "1970-01-01 00:00:00.000000",
+    "accounting_date": "0",
+    "accounting_folio": "   ",
+    "accounting_document": "0",
+    "cashier_number": null,
+    "request_type": "E",
+    "cashier_name": null,
+    "cashier_company": null
+  }
+}
+Con error:
+{
+  "status": 404,
+  "message": "not found",
+  "error": "No se encontraron eventos para la solicitud con folio {request_number}."
+}
